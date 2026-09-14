@@ -1,7 +1,10 @@
-﻿using PracticaAgenda.Logica.Models;
+﻿using Microsoft.Data.Sqlite;
+using PracticaAgenda.Logica.Models;
 using PracticaAgenda.Logica.Repositories;
 using PracticaAgenda.Logica.DTOs;
+using PracticaAgenda.Logica.Exceptions;
 using PracticaAgenda.Logica.Mapper;
+using Serilog;
 
 namespace PracticaAgenda.Logica.Services;
 
@@ -23,8 +26,13 @@ public class UserService : IUserService
     {
         this.userRepository = userRepository;
     }
-    
-
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="dtoRequest"></param>
+    /// <returns></returns>
+    /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="Exception"></exception>
     public UserDTOResponse Create(UserDTORequest dtoRequest)
     {
         // Validador de datos que recibimos
@@ -32,88 +40,161 @@ public class UserService : IUserService
         
         User? usuarioExistente = userRepository.FindByAlias(dtoRequest.Alias);
         
-        if (usuarioExistente != null)
+        if (usuarioExistente != null) // En este tipo de validaciones los logs son inecesarios
         {
-            throw new Exception($"El alias '{dtoRequest.Alias}' ya se esta usando, elija otro.");
+            throw new InvalidOperationException($"El alias '{dtoRequest.Alias}' ya se esta usando, elija otro.");
         }
         User user = UserMapper.toEntity(dtoRequest);
-        User guardado = userRepository.Create(user);
-        
-        Console.WriteLine($"Usuario {guardado.Name} creado");
-
-        // User -> DTOResponse
-        return UserMapper.toDTOResponse(guardado);
+        try
+        {
+            User guardado = userRepository.Create(user);
+            Log.Information($"Usuario {guardado.Name} creado");
+            Console.WriteLine($"Usuario {guardado.Name} creado correctamente.");
+            
+            // User -> DTOResponse
+            return UserMapper.toDTOResponse(guardado);
+        }
+        catch (SqliteException e)
+        {
+            Log.Error(e,"SQLite lanzó una excepción al intentar crear el usuario");
+            throw;
+        }
     }
-    
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
+    /// <exception cref="ArgumentException"></exception>
+    /// <exception cref="NotFoundException"></exception>
+    /// <exception cref="Exception"></exception>
     public UserDTOResponse FindById(int id)
     {
         if (id <= 0)
         {
             throw new ArgumentException("El Id debe ser mayor que 0.");
         }
-        User? user = userRepository.FindById(id);
-        
-        if (user == null)
-        {
-            throw new Exception($"El usuario con id {id} no existe");
-        }
-        Console.WriteLine($"Id de usuario: {user.Id} \n" +
-                          $"ALias: {user.Alias} \n" +
-                          $"Nombre: {user.Name} \n" +
-                          $"Número de telefono: {user.Phone} \n" +
-                          $"Email: {user.Email}");
-        
-        // User -> DTOResponse
-        return UserMapper.toDTOResponse(user);
-    }
 
+        try
+        {
+            User? user = userRepository.FindById(id);
+
+            if (user == null)
+            {
+                Log.Warning($"El id del usuario {id} no existe actualmente en la BD");
+                throw new NotFoundException($"El usuario con id {id} no existe");
+            }
+            // Aqui no ponemos Log debido a que es innecesario, ya que son datos personales de los usuarios 
+            Console.WriteLine($"Id de usuario: {user.Id} \n" +
+                              $"ALias: {user.Alias} \n" +
+                              $"Nombre: {user.Name} \n" +
+                              $"Número de telefono: {user.Phone} \n" +
+                              $"Email: {user.Email}");
+
+            // User -> DTOResponse
+            return UserMapper.toDTOResponse(user);
+        }
+        catch (SqliteException ex)
+        {
+            Log.Error(ex,"SQLite lanzó una excepción al intentar buscar un usuario por su id");
+            throw;
+        }
+    }
+/// <summary>
+/// 
+/// </summary>
+/// <param name="alias"></param>
+/// <returns></returns>
+/// <exception cref="ArgumentException"></exception>
+/// <exception cref="NotFoundException"></exception>
+/// <exception cref="Exception"></exception>
     public UserDTOResponse? FindByAlias(string alias)
     {
         if (string.IsNullOrWhiteSpace(alias))
         {
             throw new ArgumentException("El alias no puede estar vacío.");
         }
-        
-        User? user = userRepository.FindByAlias(alias);
-        
-        if (user == null)
-        {
-            return null;
-        }
-        
-        Console.WriteLine($"Id de usuario: {user.Id} " +
-                          $"ALias: {user.Alias} " +
-                          $"Nombre: {user.Name} " +
-                          $"Número de telefono: {user.Phone} " +
-                          $"Email: {user.Email}");
-        
-        return UserMapper.toDTOResponse(user);
-    }
 
+        try
+        {
+            User? user = userRepository.FindByAlias(alias);
+
+            if (user == null)
+            {
+                Log.Warning("El alias añadido no existe");
+                throw new NotFoundException($"No se encontró a ningún usuario con el alias {alias}");
+            }
+
+            Console.WriteLine($"Id de usuario: {user.Id} " +
+                              $"ALias: {user.Alias} " +
+                              $"Nombre: {user.Name} " +
+                              $"Número de telefono: {user.Phone} " +
+                              $"Email: {user.Email}");
+
+            return UserMapper.toDTOResponse(user);
+        }
+        catch (SqliteException ex)
+        {
+            Log.Error(ex,"SQLite lanzó una excepción al intentar buscar un usuario por su alias");
+            throw;
+        }
+    }
+/// <summary>
+/// 
+/// </summary>
+/// <param name="page"></param>
+/// <returns></returns>
+/// <exception cref="ArgumentException"></exception>
+/// <exception cref="NotFoundException"></exception>
+/// <exception cref="Exception"></exception>
     public List<UserDTOResponse> FindByPagination(int page)
     {
         if (page <= 0)
         {
-            throw new ArgumentException("La pagina debe ser mator que 0");
+            throw new ArgumentException("La pagina debe ser mayor que 0");
         }
-        
-        List<User> users = userRepository.FindByPagination(page);
-        Console.WriteLine($"En la pagina {page} se encontro a {users.Count} usuarios:");
 
-        List<UserDTOResponse> response = new List<UserDTOResponse>();
-        
-        foreach (User user in users)
+        try
         {
-            Console.WriteLine($"ALias: {user.Alias} \n" +
-                              $"Nombre: {user.Name} \n" +
-                              $"Número de telefono: {user.Phone} \n" +
-                              $"Email: {user.Email}");
-            response.Add(UserMapper.toDTOResponse(user));
-        }
-        
-        return response;
-    }
+            List<User> users = userRepository.FindByPagination(page);
 
+            if (users.Count == 0)
+            {
+                Log.Warning("El número de pagina añadido no existe");
+                throw new NotFoundException($"No se encontró ninguna pagina con el número {page}");
+            }
+            Log.Information($"En la pagina {page} se encontro a {users.Count} usuarios:");
+            Console.WriteLine($"En la pagina {page} se encontro a {users.Count} usuarios:");
+
+        
+            List<UserDTOResponse> response = new List<UserDTOResponse>();
+        
+            foreach (User user in users)
+            {
+                Console.WriteLine($"ALias: {user.Alias} \n" +
+                                $"Nombre: {user.Name} \n" +
+                                $"Número de telefono: {user.Phone} \n" +
+                                $"Email: {user.Email}");
+                response.Add(UserMapper.toDTOResponse(user));
+            }
+        
+            return response;
+        }
+        catch (SqliteException ex)
+        {
+            Log.Error(ex,"SQLite lanzó una excepción al intentar buscar a los usuarios por pagina");
+            throw;
+        }
+    }
+/// <summary>
+/// Actualizar usuario
+/// </summary>
+/// <param name="dtoRequest">datos de la petición</param>
+/// <returns>Envia los datos a la BD</returns>
+/// <exception cref="ArgumentException">Valor incorrecto</exception>
+/// <exception cref="NotFoundException">No existe el valor</exception>
+/// <exception cref="InvalidOperationException">Error al poner el mismo alias que otro usuaro</exception>
+/// <exception cref="Exception">Error de BD</exception>
     public UserDTOResponse Update(UserDTORequest dtoRequest)
     {
         // Validador de datos que recibimos
@@ -125,43 +206,76 @@ public class UserService : IUserService
         }
         if (userRepository.FindById(dtoRequest.Id) == null)
         {
-            throw new Exception($"El usuario con Id {dtoRequest.Id} no existe");
+            Log.Warning("El id del usuario {} no existe", dtoRequest.Id);
+            throw new NotFoundException($"El usuario con Id {dtoRequest.Id} no existe");
         }
 
-        User? usuarioConAlias = userRepository.FindByAlias(dtoRequest.Alias);
-        if(usuarioConAlias != null && usuarioConAlias.Id != dtoRequest.Id)
+        try 
         {
-            throw new Exception($"El Alias {dtoRequest.Alias} ya existe, porfavor cambielo.");
-        }
+            User? usuarioConAlias = userRepository.FindByAlias(dtoRequest.Alias);
+            if(usuarioConAlias != null && usuarioConAlias.Id != dtoRequest.Id)
+            {
+                throw new InvalidOperationException($"El Alias {dtoRequest.Alias} ya existe, porfavor cambielo.");
+            }
         
-        User user = UserMapper.toEntity(dtoRequest);
-        User actualizado = userRepository.Update(user);
+            User user = UserMapper.toEntity(dtoRequest);
+            User actualizado = userRepository.Update(user);
         
-        Console.WriteLine($"Usuario {dtoRequest.Name} actualizado");
+            Log.Information($"Usuario {dtoRequest.Name} atualizado");
+            Console.WriteLine($"Usuario {dtoRequest.Name} atualizado");
 
-        return UserMapper.toDTOResponse(actualizado);
+            return UserMapper.toDTOResponse(actualizado);
+        }
+        catch (SqliteException ex)
+        {
+            Log.Error(ex,"SQLite lanzó una excepción al intentar actualizar un usuario");
+            throw;
+        }
     }
     
+/// <summary>
+/// Eliminar un usuario
+/// </summary>
+/// <param name="id">Id del usuario a eliminar</param>
+/// <returns>Envia los datos a la BD</returns>
+/// <exception cref="Exception">Error de BD</exception>
+/// <exception cref="NotFoundException">Error de que no se ha encontrado un valor</exception>
     public UserDTOResponse Delete(int id)
     {
         if (id <= 0)
         {
-           throw new Exception("Debes introducir un id mator de 0");
+           throw new ArgumentException("Debes introducir un id mator de 0");
         }
-        
-        User user = userRepository.FindById(id);
-
-        if (user == null)
+   
+        try
         {
-            throw new Exception($"El usuario con id {id} no existe");
-        }
-        
-        userRepository.Delete(id);
-        Console.WriteLine($"Usuario con Id {id} eliminado");
-        
-        return UserMapper.toDTOResponse(user);
-    }
+            User? user = userRepository.FindById(id);
 
+            if (user == null)
+            {
+                Log.Warning("El id del usuario {} es invalido", id);
+                throw new NotFoundException($"El usuario con id {id} no existe");
+            }
+            
+            userRepository.Delete(id);
+            Log.Information("Usuario con Id {id} eliminado", id);
+            Console.WriteLine($"Usuario con Id {id} eliminado");
+
+
+            return UserMapper.toDTOResponse(user);
+        }
+        catch (SqliteException ex)
+        {
+            Log.Error(ex,"SQLite lanzó una excepción al intentar eliminar un usuario");
+            throw;
+        }
+    }
+/// <summary>
+/// Validaciones de entrada de valores para acciones como Crear o Actualizar
+/// </summary>
+/// <param name="dtoRequest"></param>
+/// <exception cref="ArgumentNullException">Error por si los valores son nulos</exception>
+/// <exception cref="ArgumentException">Error al introducir valores</exception>
     private void ValidarUsuario(UserDTORequest dtoRequest)
     {
         if (dtoRequest == null)
@@ -176,24 +290,24 @@ public class UserService : IUserService
 
         if (string.IsNullOrWhiteSpace(dtoRequest.Name) || string.IsNullOrWhiteSpace(dtoRequest.Phone) || string.IsNullOrWhiteSpace(dtoRequest.Email))
         {
-            throw new Exception($"El nombre, telefono y correo electronico no pueden quedar vacios");
+            throw new ArgumentException($"El nombre, telefono y correo electronico no pueden quedar vacios");
         }
 
         if (dtoRequest.Name.Length > 80)
         {
-            throw new Exception($"El nombre no puede superar los 80 caracteres");
+            throw new ArgumentException($"El nombre no puede superar los 80 caracteres");
         }
         if (dtoRequest.Alias.Length > 40)
         {
-            throw new Exception($"El alias no puede superar los 40 caracteres");
+            throw new ArgumentException($"El alias no puede superar los 40 caracteres");
         }
         if (dtoRequest.Phone.Length > 15)
         {
-            throw new Exception($"El telefono no puede superar los 15 caracteres");
+            throw new ArgumentException($"El telefono no puede superar los 15 caracteres");
         }
         if (dtoRequest.Email.Length > 50)
         {
-            throw new Exception($"El Email no puede superar los 50 caracteres");
+            throw new ArgumentException($"El Email no puede superar los 50 caracteres");
         }
         
     }
