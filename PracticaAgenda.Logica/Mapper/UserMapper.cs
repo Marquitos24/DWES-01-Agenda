@@ -7,23 +7,25 @@ public class UserMapper
 {
     public static User toEntity(UserDTORequest dto)
     {
-        User user = new User();
-        user.Alias = dto.Alias;
-        user.Name = dto.Name;
-        user.Phone = dto.Phone;
-        user.Email = dto.Email;
-
-        return user;
+        return new User
+        {
+            Id = dto.Id,
+            Alias = dto.Alias,
+            Name = dto.Name,
+            Phone = dto.Phone,
+            Email = dto.Email
+        };
     }
 
     public static UserDTOResponse toDTOResponse(User user)
     {
-        UserDTOResponse dto = new UserDTOResponse();
-        dto.Id = user.Id;
-        dto.Alias = user.Alias;
-        dto.Name = user.Name;
-        dto.Phone = user.Phone;
-        dto.Email = user.Email;
-        return dto;
+        return new UserDTOResponse
+        {
+            Id = user.Id,
+            Alias = user.Alias,
+            Name = user.Name,
+            Phone = user.Phone,
+            Email = user.Email
+        };
     }
 }

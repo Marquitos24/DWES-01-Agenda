@@ -89,7 +89,7 @@ public class UserRepository : IUserRepository
         connection.Open();
         string sql = """
                      SELECT *
-                     FROM  users
+                     FROM  User
                      ORDER BY Id
                      LIMIT @pageSize OFFSET @registros;
                      """;
@@ -161,9 +161,7 @@ public class UserRepository : IUserRepository
         command.Parameters.AddWithValue("@email", user.Email);
         
         command.ExecuteNonQuery();
-
-        Console.WriteLine($"Usuario {user.Name} ha sido atualizado");
-
+        
         return user;
     }
 /// <summary>
@@ -184,8 +182,6 @@ public class UserRepository : IUserRepository
         command.Parameters.AddWithValue("@id", id);
         
         command.ExecuteNonQuery();
-
-        Console.WriteLine($"Usuario ELIMINADO");
     }
 
     public void NombreTqblq()
