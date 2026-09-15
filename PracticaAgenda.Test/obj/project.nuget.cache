@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "x6r38+Sqv0Q=",
+  "dgSpecHash": "zJIpZGWgnTA=",
   "success": true,
   "projectFilePath": "C:\\Users\\Marcos\\Documents\\Proyectos\\Back-end\\C#\\PracticaAgenda\\PracticaAgenda.Test\\PracticaAgenda.Test.csproj",
   "expectedPackageFiles": [
@@ -8,6 +8,12 @@
     "C:\\Users\\Marcos\\.nuget\\packages\\microsoft.applicationinsights\\2.22.0\\microsoft.applicationinsights.2.22.0.nupkg.sha512",
     "C:\\Users\\Marcos\\.nuget\\packages\\microsoft.codecoverage\\17.14.0\\microsoft.codecoverage.17.14.0.nupkg.sha512",
     "C:\\Users\\Marcos\\.nuget\\packages\\microsoft.data.sqlite.core\\11.0.0-rc.1.26425.128\\microsoft.data.sqlite.core.11.0.0-rc.1.26425.128.nupkg.sha512",
+    "C:\\Users\\Marcos\\.nuget\\packages\\microsoft.extensions.caching.abstractions\\10.0.12\\microsoft.extensions.caching.abstractions.10.0.12.nupkg.sha512",
+    "C:\\Users\\Marcos\\.nuget\\packages\\microsoft.extensions.caching.memory\\10.0.12\\microsoft.extensions.caching.memory.10.0.12.nupkg.sha512",
+    "C:\\Users\\Marcos\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\10.0.12\\microsoft.extensions.dependencyinjection.abstractions.10.0.12.nupkg.sha512",
+    "C:\\Users\\Marcos\\.nuget\\packages\\microsoft.extensions.logging.abstractions\\10.0.12\\microsoft.extensions.logging.abstractions.10.0.12.nupkg.sha512",
+    "C:\\Users\\Marcos\\.nuget\\packages\\microsoft.extensions.options\\10.0.12\\microsoft.extensions.options.10.0.12.nupkg.sha512",
+    "C:\\Users\\Marcos\\.nuget\\packages\\microsoft.extensions.primitives\\10.0.12\\microsoft.extensions.primitives.10.0.12.nupkg.sha512",
     "C:\\Users\\Marcos\\.nuget\\packages\\microsoft.net.test.sdk\\17.14.0\\microsoft.net.test.sdk.17.14.0.nupkg.sha512",
     "C:\\Users\\Marcos\\.nuget\\packages\\microsoft.testing.extensions.telemetry\\1.5.3\\microsoft.testing.extensions.telemetry.1.5.3.nupkg.sha512",
     "C:\\Users\\Marcos\\.nuget\\packages\\microsoft.testing.extensions.trxreport.abstractions\\1.5.3\\microsoft.testing.extensions.trxreport.abstractions.1.5.3.nupkg.sha512",

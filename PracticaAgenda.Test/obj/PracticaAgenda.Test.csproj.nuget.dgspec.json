@@ -48,6 +48,10 @@
               "target": "Package",
               "version": "[11.0.0-rc.1.26425.128, )"
             },
+            "Microsoft.Extensions.Caching.Memory": {
+              "target": "Package",
+              "version": "[10.0.12, )"
+            },
             "SQLitePCLRaw.bundle_e_sqlite3": {
               "target": "Package",
               "version": "[3.0.5, )"
