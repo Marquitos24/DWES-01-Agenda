@@ -3,7 +3,7 @@ using PracticaAgenda.Logica.DTOs;
 
 namespace PracticaAgenda.Logica.Cache;
 
-public class UserCache
+public class UserCache : IUserCache
 {
     private readonly MemoryCache _cache;
     private readonly List<string> _pageKeys = new();
@@ -14,11 +14,12 @@ public class UserCache
     }
 
     /// <summary>
-    /// Añadimos el guardado en cache para los ids por si hay actualizaciones o eliminaciones de estos
+    /// 
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>
-    public UserDTOResponse? GetId(int id)
+    /// virtual ==>  Permite que otra clase hereda de el (en este caso Moq), pueda sobrescribir o interceptar este método.
+    public virtual UserDTOResponse? GetId(int id)
     {
         return _cache.Get<UserDTOResponse>($"id:{id}");
     }
@@ -28,7 +29,7 @@ public class UserCache
     /// </summary>
     /// <param name="alias"></param>
     /// <returns></returns>
-    public UserDTOResponse? GetAlias(string alias)
+    public virtual UserDTOResponse? GetAlias(string alias)
     {
         return _cache.Get<UserDTOResponse>($"alias:{alias}");
     }
@@ -46,7 +47,7 @@ public class UserCache
     /// </summary>
     /// <param name="page"></param>
     /// <returns></returns>
-    public List<UserDTOResponse>? GetPage(int page)
+    public virtual List<UserDTOResponse>? GetPage(int page)
     {
         return _cache.Get<List<UserDTOResponse>>($"page:{page}");
     }

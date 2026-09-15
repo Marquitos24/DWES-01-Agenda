@@ -1,0 +1,8 @@
+﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=753bafa8_002D6316_002D4339_002Daad7_002D4274205fd963/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="toEntity_Ok" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::BCE0C9F3-1196-6765-5911-98B15FCCF599::net10.0::PracticaAgenda.Test.Mapper.UserMapperTests.ToEntity_Ok&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::BCE0C9F3-1196-6765-5911-98B15FCCF599::net10.0::PracticaAgenda.Test.Mapper.UserMapperTests.ToDTOResponse_Ok&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::BCE0C9F3-1196-6765-5911-98B15FCCF599::net10.0::PracticaAgenda.Test.Services.UserServiceTests.Create_Ok&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>

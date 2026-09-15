@@ -21,13 +21,13 @@ public class UserService : IUserService
      * 7- Eliminar usuario
      * 8- Añadir validaciones y excepciones
      */
-    private UserRepository userRepository;
-    private readonly UserCache userCache;
+    private IUserRepository _userRepository;
+    private readonly IUserCache _userCache;
 
-    public UserService(UserRepository userRepository, UserCache userCache)
+    public UserService(IUserRepository userRepository, IUserCache userCache)
     {
-        this.userRepository = userRepository;
-        this.userCache = userCache;
+        _userRepository = userRepository;
+        _userCache = userCache;
     }
 
     /// <summary>
@@ -42,7 +42,7 @@ public class UserService : IUserService
         // Validador de datos que recibimos
         ValidarUsuario(dtoRequest);
         
-        User? usuarioExistente = userRepository.FindByAlias(dtoRequest.Alias);
+        User? usuarioExistente = _userRepository.FindByAlias(dtoRequest.Alias);
         
         if (usuarioExistente != null) // En este tipo de validaciones los logs son inecesarios
         {
@@ -52,7 +52,7 @@ public class UserService : IUserService
         try
         {
             User user = UserMapper.toEntity(dtoRequest);
-            User guardado = userRepository.Create(user);
+            User guardado = _userRepository.Create(user);
             
             Log.Information($"Usuario {guardado.Name} creado");
             Console.WriteLine($"Usuario {guardado.Name} creado correctamente.");
@@ -60,10 +60,10 @@ public class UserService : IUserService
             // User -> DTOResponse
             UserDTOResponse response = UserMapper.toDTOResponse(guardado);
 
-            userCache.Set(response);
+            _userCache.Set(response);
             
             // Las páginas pueden haber quedado desactualizadas
-            userCache.RemoveAllPages();
+            _userCache.RemoveAllPages();
 
             Log.Information("Usuario con id {UserId} añadido y guardado en caché", guardado.Id);
             
@@ -87,7 +87,7 @@ public class UserService : IUserService
     {
         if (id <= 0) throw new ArgumentException("El Id debe ser mayor que 0.");
         
-        UserDTOResponse? cachedUser = userCache.GetId(id);
+        UserDTOResponse? cachedUser = _userCache.GetId(id);
         
         if (cachedUser != null)
         {
@@ -97,7 +97,7 @@ public class UserService : IUserService
         
         try
         {
-            User? user = userRepository.FindById(id);
+            User? user = _userRepository.FindById(id);
 
             if (user == null)
             {
@@ -107,7 +107,7 @@ public class UserService : IUserService
             
             UserDTOResponse response = UserMapper.toDTOResponse(user);
 
-            userCache.Set(response);
+            _userCache.Set(response);
 
             Log.Information("Usuario con Id {UserId} obtenido desde SQLite y guardado en caché", id);
             
@@ -142,7 +142,7 @@ public class UserService : IUserService
             throw new ArgumentException("El alias no puede estar vacío.");
         }
         
-        UserDTOResponse? cachedUser = userCache.GetAlias(alias);
+        UserDTOResponse? cachedUser = _userCache.GetAlias(alias);
         
         if (cachedUser != null)
         {
@@ -153,7 +153,7 @@ public class UserService : IUserService
 
         try
         {
-            User? user = userRepository.FindByAlias(alias);
+            User? user = _userRepository.FindByAlias(alias);
 
             if (user == null)
             {
@@ -163,7 +163,7 @@ public class UserService : IUserService
 
             UserDTOResponse response = UserMapper.toDTOResponse(user);
 
-            userCache.Set(response);
+            _userCache.Set(response);
 
             Log.Information("Usuario con alias {UserAlias} obtenido desde SQLite y guardado en caché", alias);
             
@@ -196,7 +196,7 @@ public class UserService : IUserService
             throw new ArgumentException("La pagina debe ser mayor que 0");
         }
 
-        List<UserDTOResponse>? cachedPage = userCache.GetPage(page);
+        List<UserDTOResponse>? cachedPage = _userCache.GetPage(page);
         
         if (cachedPage != null)
         {
@@ -206,7 +206,7 @@ public class UserService : IUserService
         
         try
         {
-            List<User> users = userRepository.FindByPagination(page);
+            List<User> users = _userRepository.FindByPagination(page);
 
             if (users.Count == 0)
             {
@@ -218,11 +218,7 @@ public class UserService : IUserService
             
             Log.Information($"En la pagina {page} se encontro a {users.Count} usuarios:");
             Console.WriteLine($"En la pagina {page} se encontro a {users.Count} usuarios:");
-
             
-                
-            
-        
             List<UserDTOResponse> response = new List<UserDTOResponse>();
         
             for (int i = 0; i < users.Count; i++)
@@ -233,10 +229,10 @@ public class UserService : IUserService
                                       $"Nombre: {user.Name} \n" +
                                       $"Número de telefono: {user.Phone} \n" +
                                       $"Email: {user.Email} \n \n");
-                response.Add(UserMapper.toDTOResponse(user));
+                response.Add(Mapper.UserMapper.toDTOResponse(user));
             }
             // Guardamos pagina en cache
-            userCache.SetPage(page, response);
+            _userCache.SetPage(page, response);
             Log.Information("Página {Page} obtenida desde SQLite y guardada en caché", page);
             
             return response;
@@ -265,7 +261,7 @@ public class UserService : IUserService
         {
             throw new ArgumentException("El Id debe ser mayor que 0");
         }
-        if (userRepository.FindById(dtoRequest.Id) == null)
+        if (_userRepository.FindById(dtoRequest.Id) == null)
         {
             Log.Warning("El id del usuario {} no existe", dtoRequest.Id);
             throw new NotFoundException($"El usuario con Id {dtoRequest.Id} no existe");
@@ -274,9 +270,9 @@ public class UserService : IUserService
         try 
         {
             // Comprobar que el usuario existe
-            User? usuarioExistente = userRepository.FindById(dtoRequest.Id);
+            User? usuarioExistente = _userRepository.FindById(dtoRequest.Id);
             
-            User? usuarioConAlias = userRepository.FindByAlias(dtoRequest.Alias);
+            User? usuarioConAlias = _userRepository.FindByAlias(dtoRequest.Alias);
             if(usuarioConAlias != null && usuarioConAlias.Id != dtoRequest.Id)
             {
                 throw new InvalidOperationException($"El Alias {dtoRequest.Alias} ya existe, porfavor cambielo.");
@@ -285,23 +281,23 @@ public class UserService : IUserService
             string aliasAntiguo = usuarioExistente.Alias;
             
             User user = UserMapper.toEntity(dtoRequest);
-            User actualizado = userRepository.Update(user);
+            User actualizado = _userRepository.Update(user);
         
             Log.Information($"Usuario {dtoRequest.Name} atualizado");
             Console.WriteLine($"Usuario {dtoRequest.Name} atualizado");
             
             // Eliminar el alias antiguo del caché
-            userCache.RemoveAlias(aliasAntiguo);
+            _userCache.RemoveAlias(aliasAntiguo);
 
             // User -> DTOResponse
             UserDTOResponse response = UserMapper.toDTOResponse(actualizado);
 
             // Actualizar caché por ID y por alias
-            userCache.Set(response);
-            userCache.SetAlias(response);
+            _userCache.Set(response);
+            _userCache.SetAlias(response);
 
             // Las páginas pueden haber quedado desactualizadas
-            userCache.RemoveAllPages();
+            _userCache.RemoveAllPages();
             
             Log.Information("Usuario con id {UserId} actualizado y guardado en caché", actualizado.Id);
 
@@ -331,22 +327,22 @@ public class UserService : IUserService
         try
         {
             //para ver si existe el user
-            User? user = userRepository.FindById(id);
+            User? user = _userRepository.FindById(id);
             if (user == null)
             {
                 Log.Warning("El id del usuario {} es invalido", id);
                 throw new NotFoundException($"El usuario con id {id} no existe");
             }
             
-            userRepository.Delete(id);
+            _userRepository.Delete(id);
             
-            userCache.Remove(id);
+            _userCache.Remove(id);
             
             // Eliminar del caché por alias
-            userCache.RemoveAlias(user.Alias); 
+            _userCache.RemoveAlias(user.Alias); 
             
             // Las páginas pueden haber cambiado
-            userCache.RemoveAllPages(); 
+            _userCache.RemoveAllPages(); 
             
             Log.Information( "Usuario con Id {UserId} y alias {Alias} eliminado correctamente", user.Id, user.Alias);
             

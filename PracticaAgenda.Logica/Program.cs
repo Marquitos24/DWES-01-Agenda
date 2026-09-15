@@ -5,6 +5,7 @@ using PracticaAgenda.Logica.DTOs;
 using PracticaAgenda.Logica.Mapper;
 using PracticaAgenda.Logica.Services;
 using PracticaAgenda.Logica.Cache;
+
 Console.WriteLine("Hello, World!");
 
 UserRepository userRepository = new UserRepository();
@@ -17,8 +18,8 @@ Log.Logger = new LoggerConfiguration()
     .CreateLogger();// crear logger
 
 MemoryCache m = new MemoryCache(new MemoryCacheOptions());
-UserCache userCache = new UserCache(m);
-IUserService iService = new UserService(userRepository, userCache);
+UserCache userMapper = new UserCache(m);
+IUserService iService = new UserService(userRepository, userMapper);
 
 bool creado = false;
 bool buscadoID = false;
