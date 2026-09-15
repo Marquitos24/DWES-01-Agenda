@@ -1,0 +1,58 @@
+2026-09-15 02:49:39.676 +02:00 [INF] Usuario ñoo creado
+2026-09-15 02:49:39.700 +02:00 [INF] Usuario con id 10 añadido y guardado en caché
+2026-09-15 02:56:46.258 +02:00 [INF] Usuario p creado
+2026-09-15 02:56:46.284 +02:00 [INF] Usuario con id 11 añadido y guardado en caché
+2026-09-15 02:56:51.915 +02:00 [INF] Usuario con Id 11 obtenido desde SQLite y guardado en caché
+2026-09-15 03:01:07.442 +02:00 [INF] Usuario t creado
+2026-09-15 03:01:07.465 +02:00 [INF] Usuario con id 12 añadido y guardado en caché
+2026-09-15 03:01:13.428 +02:00 [INF] Usuario con Id 10 obtenido desde SQLite y guardado en caché
+2026-09-15 03:01:26.275 +02:00 [WRN] El alias añadido no existe
+2026-09-15 03:05:08.363 +02:00 [INF] Usuario q creado
+2026-09-15 03:05:08.389 +02:00 [INF] Usuario con id 13 añadido y guardado en caché
+2026-09-15 03:05:13.188 +02:00 [INF] Usuario con Id 1 obtenido desde SQLite y guardado en caché
+2026-09-15 03:05:28.469 +02:00 [INF] Usuario con alias q obtenido desde SQLite y guardado en caché
+2026-09-15 03:05:45.854 +02:00 [INF] En la pagina 3 se encontro a 2 usuarios:
+2026-09-15 03:05:45.859 +02:00 [INF] Página 3 obtenida desde SQLite y guardada en caché
+2026-09-15 03:16:47.522 +02:00 [INF] Usuario c creado
+2026-09-15 03:16:47.545 +02:00 [INF] Usuario con id 14 añadido y guardado en caché
+2026-09-15 03:16:52.865 +02:00 [INF] Usuario con Id 12 obtenido desde SQLite y guardado en caché
+2026-09-15 03:16:58.730 +02:00 [INF] Usuario con alias q obtenido desde SQLite y guardado en caché
+2026-09-15 03:17:07.918 +02:00 [INF] En la pagina 4 se encontro a 2 usuarios:
+2026-09-15 03:17:07.922 +02:00 [INF] Página 4 obtenida desde SQLite y guardada en caché
+2026-09-15 03:24:51.247 +02:00 [INF] Usuario l creado
+2026-09-15 03:24:51.272 +02:00 [INF] Usuario con id 15 añadido y guardado en caché
+2026-09-15 03:24:58.444 +02:00 [INF] Usuario con Id 6 obtenido desde SQLite y guardado en caché
+2026-09-15 03:25:13.056 +02:00 [INF] Usuario con alias l obtenido desde SQLite y guardado en caché
+2026-09-15 03:25:21.262 +02:00 [INF] En la pagina 3 se encontro a 2 usuarios:
+2026-09-15 03:25:21.268 +02:00 [INF] Página 3 obtenida desde SQLite y guardada en caché
+2026-09-15 03:26:49.281 +02:00 [INF] Usuario Carmen atualizado
+2026-09-15 03:26:49.286 +02:00 [INF] Usuario con id 13 actualizado y guardado en caché
+2026-09-15 03:27:02.351 +02:00 [INF] Usuario con Id 12 y alias t eliminado correctamente
+2026-09-15 03:27:24.143 +02:00 [INF] Usuario e creado
+2026-09-15 03:27:24.168 +02:00 [INF] Usuario con id 16 añadido y guardado en caché
+2026-09-15 03:27:34.115 +02:00 [INF] Usuario con Id 13 obtenido desde SQLite y guardado en caché
+2026-09-15 03:27:47.510 +02:00 [WRN] El alias añadido no existe
+2026-09-15 03:44:26.020 +02:00 [INF] Usuario x creado
+2026-09-15 03:44:26.045 +02:00 [INF] Usuario con id 17 añadido y guardado en caché
+2026-09-15 03:46:53.875 +02:00 [INF] Usuario a creado
+2026-09-15 03:46:53.899 +02:00 [INF] Usuario con id 18 añadido y guardado en caché
+2026-09-15 03:47:09.266 +02:00 [WRN] El id del usuario 100 no existe actualmente en la BD
+2026-09-15 03:47:35.599 +02:00 [INF] Usuario con Id 2 obtenido desde SQLite y guardado en caché
+2026-09-15 03:47:46.133 +02:00 [WRN] El alias añadido no existe
+2026-09-15 03:47:49.957 +02:00 [WRN] El alias añadido no existe
+2026-09-15 03:47:52.920 +02:00 [WRN] El alias añadido no existe
+2026-09-15 03:47:56.075 +02:00 [INF] Usuario con alias p obtenido desde SQLite y guardado en caché
+2026-09-15 03:48:05.059 +02:00 [WRN] El número de pagina añadido no existe
+2026-09-15 03:48:09.590 +02:00 [WRN] El número de pagina añadido no existe
+2026-09-15 03:48:15.436 +02:00 [INF] En la pagina 4 se encontro a 2 usuarios:
+2026-09-15 03:48:47.691 +02:00 [INF] En la pagina 4 se encontro a 2 usuarios:
+2026-09-15 03:53:02.271 +02:00 [INF] Usuario < creado
+2026-09-15 03:53:02.296 +02:00 [INF] Usuario con id 19 añadido y guardado en caché
+2026-09-15 03:53:05.642 +02:00 [INF] Usuario con Id 3 obtenido desde SQLite y guardado en caché
+2026-09-15 03:53:12.750 +02:00 [WRN] El alias añadido no existe
+2026-09-15 03:53:16.896 +02:00 [INF] Usuario con alias p obtenido desde SQLite y guardado en caché
+2026-09-15 03:53:20.182 +02:00 [INF] En la pagina 4 se encontro a 2 usuarios:
+2026-09-15 03:53:20.185 +02:00 [INF] Página 4 obtenida desde SQLite y guardada en caché
+2026-09-15 03:53:59.556 +02:00 [INF] Usuario Casemiro Pobeda atualizado
+2026-09-15 03:53:59.566 +02:00 [INF] Usuario con id 9 actualizado y guardado en caché
+2026-09-15 03:54:10.284 +02:00 [INF] Usuario con Id 19 y alias < eliminado correctamente

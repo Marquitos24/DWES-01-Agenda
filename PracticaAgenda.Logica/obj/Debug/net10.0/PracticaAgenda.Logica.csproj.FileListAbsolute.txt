@@ -48,3 +48,13 @@ C:\Users\Marcos\Documents\Proyectos\Back-end\C#\PracticaAgenda\PracticaAgenda.Lo
 C:\Users\Marcos\Documents\Proyectos\Back-end\C#\PracticaAgenda\PracticaAgenda.Logica\bin\Debug\net10.0\runtimes\win-arm64\native\e_sqlite3.dll
 C:\Users\Marcos\Documents\Proyectos\Back-end\C#\PracticaAgenda\PracticaAgenda.Logica\bin\Debug\net10.0\runtimes\win-x64\native\e_sqlite3.dll
 C:\Users\Marcos\Documents\Proyectos\Back-end\C#\PracticaAgenda\PracticaAgenda.Logica\bin\Debug\net10.0\runtimes\win-x86\native\e_sqlite3.dll
+C:\Users\Marcos\Documents\Proyectos\Back-end\C#\PracticaAgenda\PracticaAgenda.Logica\bin\Debug\net10.0\Microsoft.Extensions.Caching.Abstractions.dll
+C:\Users\Marcos\Documents\Proyectos\Back-end\C#\PracticaAgenda\PracticaAgenda.Logica\bin\Debug\net10.0\Microsoft.Extensions.Caching.Memory.dll
+C:\Users\Marcos\Documents\Proyectos\Back-end\C#\PracticaAgenda\PracticaAgenda.Logica\bin\Debug\net10.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+C:\Users\Marcos\Documents\Proyectos\Back-end\C#\PracticaAgenda\PracticaAgenda.Logica\bin\Debug\net10.0\Microsoft.Extensions.Logging.Abstractions.dll
+C:\Users\Marcos\Documents\Proyectos\Back-end\C#\PracticaAgenda\PracticaAgenda.Logica\bin\Debug\net10.0\Microsoft.Extensions.Options.dll
+C:\Users\Marcos\Documents\Proyectos\Back-end\C#\PracticaAgenda\PracticaAgenda.Logica\bin\Debug\net10.0\Microsoft.Extensions.Primitives.dll
+C:\Users\Marcos\Documents\Proyectos\Back-end\C#\PracticaAgenda\PracticaAgenda.Logica\bin\Debug\net10.0\Serilog.dll
+C:\Users\Marcos\Documents\Proyectos\Back-end\C#\PracticaAgenda\PracticaAgenda.Logica\bin\Debug\net10.0\Serilog.Sinks.Console.dll
+C:\Users\Marcos\Documents\Proyectos\Back-end\C#\PracticaAgenda\PracticaAgenda.Logica\bin\Debug\net10.0\Serilog.Sinks.File.dll
+C:\Users\Marcos\Documents\Proyectos\Back-end\C#\PracticaAgenda\PracticaAgenda.Logica\obj\Debug\net10.0\PracticaAgenda.Logica.sourcelink.json

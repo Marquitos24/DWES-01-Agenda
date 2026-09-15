@@ -167,10 +167,10 @@ public class UserService : IUserService
 
             Log.Information("Usuario con alias {UserAlias} obtenido desde SQLite y guardado en caché", alias);
             
-            Console.WriteLine($"Id de usuario: {user.Id} " +
-                              $"ALias: {user.Alias} " +
-                              $"Nombre: {user.Name} " +
-                              $"Número de telefono: {user.Phone} " +
+            Console.WriteLine($"Id de usuario: {user.Id} \n" +
+                              $"ALias: {user.Alias} \n" +
+                              $"Nombre: {user.Name} \n" +
+                              $"Número de telefono: {user.Phone} \n" +
                               $"Email: {user.Email}");
 
             return response;
@@ -219,15 +219,20 @@ public class UserService : IUserService
             Log.Information($"En la pagina {page} se encontro a {users.Count} usuarios:");
             Console.WriteLine($"En la pagina {page} se encontro a {users.Count} usuarios:");
 
+            
+                
+            
         
             List<UserDTOResponse> response = new List<UserDTOResponse>();
         
-            foreach (User user in users)
+            for (int i = 0; i < users.Count; i++)
             {
-                Console.WriteLine($"ALias: {user.Alias} \n" +
-                                $"Nombre: {user.Name} \n" +
-                                $"Número de telefono: {user.Phone} \n" +
-                                $"Email: {user.Email}");
+                User user = users[i];
+                    Console.WriteLine($"[{i + 1}] \n" +
+                                      $"ALias: {user.Alias} \n" +
+                                      $"Nombre: {user.Name} \n" +
+                                      $"Número de telefono: {user.Phone} \n" +
+                                      $"Email: {user.Email} \n \n");
                 response.Add(UserMapper.toDTOResponse(user));
             }
             // Guardamos pagina en cache
